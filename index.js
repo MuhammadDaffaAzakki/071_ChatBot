@@ -34,7 +34,7 @@ app.post("/api/chat", async (req, res) => {
                 },
 
                 body: JSON.stringify({
-                    model: "inclusional/ling-3.2-flash:free",
+                    model: "inclusionai/ling-3.2-flash:free",
                     messages: messages,
                     temperature: 0.7,
                     max_tokens: 1000,
@@ -87,7 +87,7 @@ app.post("/api/chat", async (req, res) => {
                     continue;
                 }
 
-                if (trimmedLine.startsWith("data: ")) {
+                if (!trimmedLine.startsWith("data:")) {
                     continue;
                 }
 
@@ -102,7 +102,7 @@ app.post("/api/chat", async (req, res) => {
                     const json = JSON.parse(data);
 
                     const content =
-                        json.choice?.[0]?.delta?.content;
+                        json.choices?.[0]?.delta?.content;
 
                         if (content) {
                             res.write(`data: ${JSON.stringify(content)}\n\n`);
